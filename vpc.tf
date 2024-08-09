@@ -4,7 +4,9 @@ resource "aws_vpc" "main" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = "${var.vpc_name}-vpc"
+    Name    = "${var.project_name}-${var.environment}-vpc"
+    env     = var.environment
+    project = var.project_name
   }
 }
 
@@ -17,7 +19,9 @@ resource "aws_subnet" "public" {
   availability_zone       = element(var.availability_zones, count.index)
   map_public_ip_on_launch = true
   tags = {
-    Name = "${var.vpc_name}-public-subnet-${count.index + 1}"
+    Name    = "${var.project_name}-${var.environment}-public-subnet-${element(var.availability_zones, count.index)}"
+    env     = var.environment
+    project = var.project_name
   }
 }
 
@@ -29,7 +33,9 @@ resource "aws_subnet" "private" {
   cidr_block        = element(var.private_subnet_cidrs, count.index)
   availability_zone = element(var.availability_zones, count.index)
   tags = {
-    Name = "${var.vpc_name}-private-subnet-${count.index + 1}"
+    Name    = "${var.project_name}-${var.environment}-private-subnet-${element(var.availability_zones, count.index)}"
+    env     = var.environment
+    project = var.project_name
   }
 }
 
@@ -37,7 +43,9 @@ resource "aws_subnet" "private" {
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
   tags = {
-    Name = "${var.vpc_name}-internet-gateway"
+    Name    = "${var.project_name}-${var.environment}-internet-gateway"
+    env     = var.environment
+    project = var.project_name
   }
 }
 
@@ -46,19 +54,18 @@ resource "aws_nat_gateway" "main" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public[0].id
   tags = {
-    Name = "${var.vpc_name}-nat-gateway"
+    Name    = "${var.project_name}-${var.environment}-nat-gateway"
+    env     = var.environment
+    project = var.project_name
   }
 }
 
 # Create the Elastic IP for the NAT Gateway
 resource "aws_eip" "nat" {
   domain = "vpc"
-}
-
-# Output the Elastic IP allocation ID
-output "nat_eip_allocation_id" {
-  value = aws_eip.nat.id
-  description = "Elastic IP allocation ID for the NAT Gateway"
+  tags = {
+    Name = "${var.project_name}-${var.environment}-nat-eip"
+  }
 }
 
 # Create Route Tables
@@ -71,7 +78,9 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "${var.vpc_name}-public-route-table"
+    Name    = "${var.project_name}-${var.environment}-public-route-table"
+    env     = var.environment
+    project = var.project_name
   }
 }
 
@@ -84,7 +93,9 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name = "${var.vpc_name}-private-route-table"
+    Name    = "${var.project_name}-${var.environment}-private-route-table"
+    env     = var.environment
+    project = var.project_name
   }
 }
 

@@ -1,4 +1,6 @@
-vpc_name = "nagesh-dev"
+
+project_name = "elegant"
+environment  = "test"
 vpc_cidr = "10.0.0.0/18"
 
 public_subnet_cidrs = ["10.0.0.0/22", "10.0.8.0/21", "10.0.4.0/22"]
