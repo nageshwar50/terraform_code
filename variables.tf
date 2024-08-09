@@ -1,5 +1,10 @@
-variable "vpc_name" {
-  description = "Name for the VPC and related resources"
+variable "project_name" {
+  description = "Name of the project"
+  type        = string
+}
+
+variable "environment" {
+  description = "Environment (e.g., dev, test, prod)"
   type        = string
 }
 
