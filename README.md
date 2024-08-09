@@ -18,6 +18,7 @@ After the apply completes, you can verify the resources created by checking your
 
 Update: If you need to make changes, modify the .tf files and then run terraform plan and terraform apply again.
 Destroy: To destroy the infrastructure created, run
+
 ``` terraform destroy -var-file="dev.tfvars" ```
 
 This will tear down all the resources created by your Terraform configuration.
