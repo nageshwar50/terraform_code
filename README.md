@@ -12,6 +12,7 @@ To apply the changes and create the infrastructure, run:
 ``` terraform apply -var-file="dev.tfvars" ```
 # Verify the Infrastructure:
 After the apply completes, you can verify the resources created by checking your AWS Management Console or by running:
+
 ``` terraform output ```
 
 # Manage the Infrastructure:
